@@ -25,7 +25,7 @@ public class GameManager {
 		// Our board (HARDCODED; change in future)
 		Board board = new Board(10, 10);
 		
-		// Our snake
+		// Our snake (head)
 		Snake snake = new Snake(board, true);
 		board.snakeUpdate(snake);
 		
@@ -44,8 +44,8 @@ public class GameManager {
 				// Update the snake's location; also checks if game is over
 				gameOver = board.snakeUpdate(snake);
 				
-				// REPLACE THIS WITH new snakeSpawn IN FUTURE
-				board.grid[snake.getPrevX()][snake.getPrevY()] = null;
+				// Spawn a new snake at the previous location
+				board.snakeSpawn(snake.getPrevX(),snake.getPrevY());
 			
 			// Handle improper input
 			} catch (InputMismatchException ex) {

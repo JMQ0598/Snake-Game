@@ -24,7 +24,7 @@ public class Board {
 				if (grid[x][y] != null) {
 					
 					// Don't update the head
-					if (grid[x][y].isHead()) {
+					if (grid[x][y].IsHead()) {
 						continue;
 					}
 					
@@ -102,7 +102,7 @@ public class Board {
 				// Printing head vs. tail
 				if (grid[x][y].IsHead()) {
 					
-					System.out.print(" * ");
+					System.out.print(" 0 ");
 					
 				} else {
 					

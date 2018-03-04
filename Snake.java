@@ -32,14 +32,13 @@ public class Snake {
 		tailLength = 0;
 		
 		// Obtaining snake's location
-		x = (board.getWidth()/2) + 1;
-		y = (board.getHeight()/2) + 1;
+		x = (board.getWidth()/2) + (board.getWidth() % 2);
+		y = (board.getHeight()/2) + (board.getHeight() % 2);
 		prevX = x;
 		prevY = y;
 	}
 	
 	// CHANGE DIRS TO ENUM IN FUTURE
-	// ALSO, HAVE IT RETURN BOOLEAN; IF FALSE GM WILL USE PREVDIR
 	public void move(int direction) {
 		
 		// Used to check if invalid direction (snake can't move backwards)
