@@ -1,7 +1,12 @@
 public class Snake {
 
+	// The length of the snake
 	private int tailLength;
+	
+	// How much longer snake part has to live; head is "immortal"
 	public int life;
+	
+	// Location and prev location of snake head
 	public int x;
 	public int y;
 	public int prevX;
@@ -16,7 +21,10 @@ public class Snake {
 	public Snake (Board board, boolean isHead) {
 		
 		// Reset prevDir
-		prevDir = -1;
+		prevDir = 0;
+		
+		// Set tail length (may change in future)
+		tailLength = 3;
 		
 		// Determines if snake is head
 		this.isHead = isHead;
@@ -27,9 +35,6 @@ public class Snake {
 		} else {
 			life = tailLength;
 		}
-		
-		// Set tail length
-		tailLength = 0;
 		
 		// Obtaining snake's location
 		x = (board.getWidth()/2) + (board.getWidth() % 2);
