@@ -1,0 +1,17 @@
+public class Tile {
+
+	// Remaining increments left on tile's life
+	public int life;
+
+	public Tile (Snake s) {
+		life = s.getLength();
+	}
+	
+	public void decrement() {
+		life--;
+	}
+	
+	public int getLife() {
+		return life;
+	}
+}
