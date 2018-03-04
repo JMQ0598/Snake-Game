@@ -5,10 +5,10 @@ import java.util.InputMismatchException;
 public class GameManager {
 
 	// How much the snake's tail will grow when score increments
-	private final int incrementLength = 3;
+	private static final int incrementLength = 3;
 	
 	// The game score
-	private int score;
+	private static int score;
 	
 	// Is the game over?
 	private static boolean gameOver;
@@ -26,14 +26,27 @@ public class GameManager {
 		Board board = new Board(10, 10);
 		
 		// Our snake (head)
-		Snake snake = new Snake(board, true);
+		Snake snake = new Snake(board, true, false);
 		board.snakeUpdate(snake);
+		
+		// Our first point
+		board.spawnSnakePoint();
 		
 		// Our next direction
 		int dir;
 		
 		while (!gameOver) {
 			
+			// Handle scoring a point
+			if (board.IsScore()) {
+				
+				score++;
+				snake.elongate(incrementLength);
+				board.spawnSnakePoint();
+				board.extendLife(incrementLength);
+			}
+			
+			// Print the board
 			board.printBoard();
 			
 			// First try: Getting input
@@ -85,7 +98,10 @@ public class GameManager {
 			}
 		}
 		
+		// Game over; print the final board
 		System.out.println("GAME OVER");
+		System.out.println("FINAL SCORE: " + score);
+		board.printBoard();
 	}
 	
 }

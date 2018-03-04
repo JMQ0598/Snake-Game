@@ -1,8 +1,17 @@
+import java.util.Random;
+
 public class Board {
 	
-	public Snake[][] grid;
+	// Grid info
+	private Snake[][] grid;
 	private int width;
 	private int height;
+	
+	// Check if the player scored
+	private boolean isScore;
+	
+	// Random num generator
+	private static Random gen = new Random();
 	
 	public Board (int width, int height) {
 	
@@ -24,7 +33,7 @@ public class Board {
 				if (grid[x][y] != null) {
 					
 					// Don't update the head
-					if (grid[x][y].IsHead()) {
+					if (grid[x][y].IsHead() || grid[x][y].IsPoint()) {
 						continue;
 					}
 					
@@ -50,7 +59,7 @@ public class Board {
 	 * Spawn a snake head in a given location.
 	 */
 	public void snakeSpawn(int x, int y) {
-		grid[x][y] = new Snake(this, false);
+		grid[x][y] = new Snake(this, false, false);
 	}
 	
 	/**
@@ -66,8 +75,12 @@ public class Board {
 			 
 			 return true;
 		 
+		 // See if the player scored
+		 } else if (grid[s.getX()][s.getY()] != null && grid[s.getX()][s.getY()].IsPoint()) {
+			 isScore = true;
+			 
 		 // See if the snake crashed into tail
-		} else if (grid[s.getX()][s.getY()] != null) {
+		 } else if (grid[s.getX()][s.getY()] != null) {
 			
 			gameOver = true;
 		 }
@@ -104,6 +117,10 @@ public class Board {
 					
 					System.out.print(" 0 ");
 					
+				} else if (grid[x][y].IsPoint()) {
+					
+					System.out.print(" * ");
+				
 				} else {
 					
 					System.out.print(" o ");
@@ -112,6 +129,55 @@ public class Board {
 			
 			// Right border print
 			System.out.println("|");
+		}
+	}
+	
+	public boolean IsScore() {
+		return isScore;
+	}
+	
+	/** 
+	 * Spawns a new point
+	 */
+	public void spawnSnakePoint() {
+		
+		// Initialize default coords
+		int x = 0;
+		int y = 0;
+		
+		// Loop until proper random coords found
+		boolean done = false;
+		while (!done) {
+			
+			// Generate new coords
+			x = gen.nextInt(this.getWidth());
+			y = gen.nextInt(this.getHeight());
+			
+			// See if we can place the point there
+			if (grid[x][y] != null) {
+				continue;
+				
+			} else {
+				done = true;
+			}
+		}
+		
+		// Spawn in the new point
+		grid[x][y] = new Snake(this,false,true);
+		this.isScore = false;
+	}
+	
+	// Extends the life of snake pieces
+	public void extendLife(int value) {
+		
+		// Iterate over board and add life to non-head non-point pieces
+		for (int x = 0; x < this.getWidth(); x++) {
+			for (int y = 0; y < this.getHeight(); y++) {
+			
+				if (grid[x][y] != null && !grid[x][y].IsHead() && !grid[x][y].IsPoint()) {
+					grid[x][y].addLife(value);
+				}
+			}
 		}
 	}
 }

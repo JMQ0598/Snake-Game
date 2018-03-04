@@ -1,7 +1,7 @@
 public class Snake {
 
 	// The length of the snake
-	private int tailLength;
+	private static int tailLength = 5;
 	
 	// How much longer snake part has to live; head is "immortal"
 	public int life;
@@ -13,24 +13,27 @@ public class Snake {
 	public int prevY;
 	
 	// Game manager has to set this at the start
-	public boolean isHead;
+	private boolean isHead;
+	
+	// Is this snake a point (not part of the snake)
+	private boolean isPoint;
 	
 	// CHANGE TO ENUM IN FUTURE
 	private int prevDir;
 	
-	public Snake (Board board, boolean isHead) {
+	public Snake (Board board, boolean isHead, boolean isPoint) {
 		
 		// Reset prevDir
 		prevDir = 0;
 		
-		// Set tail length (may change in future)
-		tailLength = 3;
-		
 		// Determines if snake is head
 		this.isHead = isHead;
 		
+		// Determines if snake is a point
+		this.isPoint = isPoint;
+		
 		// Set life of snake part
-		if (this.isHead) {
+		if (this.isHead || this.isPoint) {
 			life = -1;
 		} else {
 			life = tailLength;
@@ -113,6 +116,10 @@ public class Snake {
 		return isHead;
 	}
 	
+	public boolean IsPoint() {
+		return isPoint;
+	}
+	
 	/**
 	 * Used to keep decrease how much longer a snake part has to live
 	 * 	Head portion will ALWAYS be negative
@@ -127,6 +134,13 @@ public class Snake {
 	public int getLife() {
 		return life;
 	}
+	
+	/**
+	 * Extend life of snake part
+	 */
+	 public void addLife(int value) {
+		 life += value;
+	 }
 	
 	public int getX() {
 		return x;
